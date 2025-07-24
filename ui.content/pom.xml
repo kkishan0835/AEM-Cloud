@@ -21,8 +21,8 @@
     <!-- P A R E N T  P R O J E C T  D E S C R I P T I O N                      -->
     <!-- ====================================================================== -->
     <parent>
-        <groupId>com.assets</groupId>
-        <artifactId>aem-assets-project</artifactId>
+        <groupId>com.adobeags2020program</groupId>
+        <artifactId>aem-adobeags2020program-project</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -30,10 +30,10 @@
     <!-- ====================================================================== -->
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
-    <artifactId>aem-assets-project.ui.content</artifactId>
+    <artifactId>aem-adobeags2020program-project.ui.content</artifactId>
     <packaging>content-package</packaging>
-    <name>assets - UI content</name>
-    <description>UI content package for assets</description>
+    <name>adobeags2020program - UI content</name>
+    <description>UI content package for adobeags2020program</description>
 
     <!-- ====================================================================== -->
     <!-- B U I L D   D E F I N I T I O N                                        -->
@@ -50,8 +50,8 @@
                     <properties>
                         <cloudManagerTarget>none</cloudManagerTarget>
                     </properties>
-                    <group>com.assets</group>
-                    <name>aem-assets-project.ui.content</name>
+                    <group>com.adobeags2020program</group>
+                    <name>aem-adobeags2020program-project.ui.content</name>
                     <packageType>content</packageType>
                     <accessControlHandling>merge</accessControlHandling>
                     <validatorsSettings>
@@ -63,8 +63,8 @@
                     </validatorsSettings>
                     <dependencies>
                         <dependency>
-                            <groupId>com.assets</groupId>
-                            <artifactId>aem-assets-project.ui.apps</artifactId>
+                            <groupId>com.adobeags2020program</groupId>
+                            <artifactId>aem-adobeags2020program-project.ui.apps</artifactId>
                             <version>${project.version}</version>
                         </dependency>
                     </dependencies>
@@ -87,13 +87,13 @@
     <!-- ====================================================================== -->
     <dependencies>
         <dependency>
-            <groupId>com.assets</groupId>
-            <artifactId>aem-assets-project.core</artifactId>
+            <groupId>com.adobeags2020program</groupId>
+            <artifactId>aem-adobeags2020program-project.core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.assets</groupId>
-            <artifactId>aem-assets-project.ui.apps</artifactId>
+            <groupId>com.adobeags2020program</groupId>
+            <artifactId>aem-adobeags2020program-project.ui.apps</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>

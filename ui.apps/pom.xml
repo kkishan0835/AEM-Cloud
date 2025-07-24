@@ -21,8 +21,8 @@
     <!-- P A R E N T  P R O J E C T  D E S C R I P T I O N                      -->
     <!-- ====================================================================== -->
     <parent>
-        <groupId>com.assets</groupId>
-        <artifactId>aem-assets-project</artifactId>
+        <groupId>com.adobeags2020program</groupId>
+        <artifactId>aem-adobeags2020program-project</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -30,10 +30,10 @@
     <!-- ====================================================================== -->
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
-    <artifactId>aem-assets-project.ui.apps</artifactId>
+    <artifactId>aem-adobeags2020program-project.ui.apps</artifactId>
     <packaging>content-package</packaging>
-    <name>assets - UI apps</name>
-    <description>UI apps package for assets</description>
+    <name>adobeags2020program - UI apps</name>
+    <description>UI apps package for adobeags2020program</description>
 
     <!-- ====================================================================== -->
     <!-- B U I L D   D E F I N I T I O N                                        -->
@@ -51,13 +51,13 @@
                     <properties>
                         <cloudManagerTarget>none</cloudManagerTarget>
                     </properties>
-                    <group>com.assets</group>
-                    <name>aem-assets-project.ui.apps</name>
+                    <group>com.adobeags2020program</group>
+                    <name>aem-adobeags2020program-project.ui.apps</name>
                     <packageType>application</packageType>
-                                        <repositoryStructurePackages>
+                    <repositoryStructurePackages>
                         <repositoryStructurePackage>
-                            <groupId>com.assets</groupId>
-                            <artifactId>aem-assets-project.ui.apps.structure</artifactId>
+                            <groupId>com.adobeags2020program</groupId>
+                            <artifactId>aem-adobeags2020program-project.ui.apps.structure</artifactId>
                         </repositoryStructurePackage>
                     </repositoryStructurePackages>
                     <dependencies>
@@ -107,22 +107,22 @@
     <!-- ====================================================================== -->
     <dependencies>
         <dependency>
-            <groupId>com.assets</groupId>
-            <artifactId>aem-assets-project.core</artifactId>
+            <groupId>com.adobeags2020program</groupId>
+            <artifactId>aem-adobeags2020program-project.core</artifactId>
             <version>${project.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.assets</groupId>
-            <artifactId>aem-assets-project.ui.frontend</artifactId>
+            <groupId>com.adobeags2020program</groupId>
+            <artifactId>aem-adobeags2020program-project.ui.frontend</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
 
 
         <dependency>
-            <groupId>com.assets</groupId>
-            <artifactId>aem-assets-project.ui.apps.structure</artifactId>
+            <groupId>com.adobeags2020program</groupId>
+            <artifactId>aem-adobeags2020program-project.ui.apps.structure</artifactId>
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>

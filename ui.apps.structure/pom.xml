@@ -6,8 +6,8 @@
     <!-- P A R E N T  P R O J E C T  D E S C R I P T I O N                      -->
     <!-- ====================================================================== -->
     <parent>
-        <groupId>com.assets</groupId>
-        <artifactId>aem-assets-project</artifactId>
+        <groupId>com.adobeags2020program</groupId>
+        <artifactId>aem-adobeags2020program-project</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -15,9 +15,9 @@
     <!-- ====================================================================== -->
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
-    <artifactId>aem-assets-project.ui.apps.structure</artifactId>
+    <artifactId>aem-adobeags2020program-project.ui.apps.structure</artifactId>
     <packaging>content-package</packaging>
-    <name>assets - Repository Structure Package</name>
+    <name>adobeags2020program - Repository Structure Package</name>
     <description>
         Empty package that defines the structure of the Adobe Experience Manager repository the Code packages in this project deploy into.
         Any roots in the Code packages of this project should have their parent enumerated in the Filters list below.
@@ -35,7 +35,7 @@
                     <filters>
                         <!-- /apps root -->
                         <filter><root>/apps</root></filter>
-                        <filter><root>/apps/assets</root></filter>
+                        <filter><root>/apps/adobeags2020program</root></filter>
                         <!-- Common overlay roots -->
                                                 <filter><root>/apps/sling</root></filter>
                         <filter><root>/apps/cq</root></filter>
@@ -47,7 +47,7 @@
                         <filter><root>/apps/settings</root></filter>
 
                         <!-- DAM folder root, will be created via repoinit -->
-                        <filter><root>/content/dam/assets</root></filter>
+                        <filter><root>/content/dam/adobeags2020program</root></filter>
 
                     </filters>
                 </configuration>

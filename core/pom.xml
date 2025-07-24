@@ -18,14 +18,14 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.assets</groupId>
-        <artifactId>aem-assets-project</artifactId>
+        <groupId>com.adobeags2020program</groupId>
+        <artifactId>aem-adobeags2020program-project</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>aem-assets-project.core</artifactId>
-    <name>assets - Core</name>
-    <description>Core bundle for assets</description>
+    <artifactId>aem-adobeags2020program-project.core</artifactId>
+    <name>adobeags2020program - Core</name>
+    <description>Core bundle for adobeags2020program</description>
     <build>
         <plugins>
             <plugin>
@@ -98,12 +98,6 @@ Import-Package: javax.annotation;version=0.0.0,*
 
 
         <!-- Testing -->
-		<dependency>
-			<groupId>com.adobe.acs</groupId>
-			<artifactId>acs-aem-commons-bundle</artifactId>
-			<version>6.0.14</version>
-			<scope>provided</scope>
-		</dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -143,7 +137,7 @@ Import-Package: javax.annotation;version=0.0.0,*
         <dependency>
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.models.impl</artifactId>
-            <version>1.4.4</version>
+            <version>1.4.14</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

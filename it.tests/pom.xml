@@ -18,42 +18,37 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.assets</groupId>
-        <artifactId>aem-assets-project</artifactId>
+        <groupId>com.adobeags2020program</groupId>
+        <artifactId>aem-adobeags2020program-project</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>aem-assets-project.it.tests</artifactId>
-    <name>assets - Integration Tests</name>
-    <description>Integration Tests for assets</description>
+    <artifactId>aem-adobeags2020program-project.it.tests</artifactId>
+    <name>adobeags2020program - Integration Tests</name>
+    <description>Integration Tests for adobeags2020program</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.htmlunit</groupId>
-            <artifactId>htmlunit</artifactId>
-            <version>3.1.0</version>
+            <version>4.13.2</version>
         </dependency>
         <dependency>
             <groupId>com.adobe.cq</groupId>
             <artifactId>aem-cloud-testing-clients</artifactId>
-            <version>1.1.2</version>
+            <version>1.2.9</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.25</version>
+            <version>1.7.36</version>
         </dependency>
     </dependencies>
 
@@ -76,7 +71,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.21.0</version>
+                        <version>3.2.5</version>
                         <configuration>
                             <skip>true</skip>
                         </configuration>
@@ -84,7 +79,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>2.21.0</version>
+                        <version>3.2.5</version>
                         <configuration>
                             <testSourceDirectory>${basedir}/src/main/java/</testSourceDirectory>
                             <testClassesDirectory>${project.build.directory}/classes/</testClassesDirectory>
@@ -142,31 +137,31 @@
             <plugins>
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.3.2</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.0.2</version>
+                    <version>3.3.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
+                    <version>3.12.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.22.1</version>
+                    <version>3.2.5</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.0.2</version>
+                    <version>3.3.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-install-plugin</artifactId>
-                    <version>2.5.2</version>
+                    <version>3.1.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
-                    <version>2.8.2</version>
+                    <version>3.1.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>

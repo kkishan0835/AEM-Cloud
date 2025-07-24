@@ -22,8 +22,8 @@
     <!-- P A R E N T  P R O J E C T  D E S C R I P T I O N                      -->
     <!-- ====================================================================== -->
     <parent>
-        <groupId>com.assets</groupId>
-        <artifactId>aem-assets-project</artifactId>
+        <groupId>com.adobeags2020program</groupId>
+        <artifactId>aem-adobeags2020program-project</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -31,9 +31,9 @@
     <!-- ====================================================================== -->
     <!-- P R O J E C T  D E S C R I P T I O N                                   -->
     <!-- ====================================================================== -->
-    <artifactId>aem-assets-project.ui.frontend</artifactId>
+    <artifactId>aem-adobeags2020program-project.ui.frontend</artifactId>
     <packaging>pom</packaging>
-    <name>assets - UI Frontend</name>
+    <name>adobeags2020program - UI Frontend</name>
 
 
     <!-- ====================================================================== -->

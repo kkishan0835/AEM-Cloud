@@ -15,6 +15,6 @@
   ~ limitations under the License.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 <workspaceFilter version="1.0">
-    <filter root="/apps/assets-packages"/>
-    <filter root="/apps/assets-vendor-packages"/>
+    <filter root="/apps/adobeags2020program-packages"/>
+    <filter root="/apps/adobeags2020program-vendor-packages"/>
 </workspaceFilter>

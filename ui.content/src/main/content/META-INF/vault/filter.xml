@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/conf/assets" mode="merge"/>
-    <filter root="/content/assets" mode="merge"/>
-    <filter root="/content/dam/assets" mode="merge">
-        <exclude pattern="/content/dam/assets(/.*)?"/>
-        <include pattern="/content/dam/assets/jcr:content(/.*)?"/>
+    <filter root="/conf/adobeags2020program" mode="merge"/>
+    <filter root="/content/adobeags2020program" mode="merge"/>
+    <filter root="/content/dam/adobeags2020program" mode="merge">
+        <exclude pattern="/content/dam/adobeags2020program(/.*)?"/>
+        <include pattern="/content/dam/adobeags2020program/jcr:content(/.*)?"/>
     </filter>
-    <filter root="/content/dam/assets/asset.jpg" mode="merge"/>
-    <filter root="/content/experience-fragments/assets" mode="merge"/>
+    <filter root="/content/dam/adobeags2020program/asset.jpg" mode="merge"/>
+    <filter root="/content/experience-fragments/adobeags2020program" mode="merge"/>
 </workspaceFilter>
