@@ -48,6 +48,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <aem.sdk.api>2025.7.21706.20250723T205632Z-250600</aem.sdk.api>
     <aemanalyser.version>1.6.6</aemanalyser.version>
+	<acs.commons.version>6.14.0</acs.commons.version>
     <componentGroupName>adobeags2020program</componentGroupName>
   </properties>
   <build>
@@ -562,6 +563,13 @@ Bundle-DocURL:
           </exclusion>
         </exclusions>
       </dependency>
+	  <dependency>
+	    <groupId>com.adobe.acs</groupId>
+	    <artifactId>acs-aem-commons-all</artifactId>
+	    <classifier>cloud</classifier>
+	    <version>${acs.commons.version}</version>
+	    <type>zip</type>
+	  </dependency>
       <dependency>
         <groupId>org.apache.sling</groupId>
         <artifactId>org.apache.sling.testing.caconfig-mock-plugin</artifactId>

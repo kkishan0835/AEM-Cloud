@@ -77,6 +77,12 @@
                             <type>zip</type>
                             <target>/apps/adobeags2020program-packages/application/install</target>
                         </embedded>
+						<embedded>
+				            <artifactId>acs-aem-commons-all</artifactId>
+				            <target>/apps/brand-portal-packages/container/install</target>
+				            <filter>true</filter>
+				            <isAllVersionsFilter>true</isAllVersionsFilter>
+				        </embedded>
                     </embeddeds>
                 </configuration>
             </plugin>
@@ -196,6 +202,12 @@
             <version>${project.version}</version>
             <type>zip</type>
         </dependency>
+		<dependency>
+		    <groupId>com.adobe.acs</groupId>
+		    <artifactId>acs-aem-commons-all</artifactId>
+		     <classifier>cloud</classifier>
+		    <type>zip</type>
+		  </dependency>
 
     </dependencies>
 </project>
