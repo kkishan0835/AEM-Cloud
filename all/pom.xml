@@ -79,10 +79,17 @@
                         </embedded>
 						<embedded>
 				            <artifactId>acs-aem-commons-all</artifactId>
-				            <target>/apps/brand-portal-packages/container/install</target>
+				            <target>/apps/adobeags2020program-packages/container/install</target>
 				            <filter>true</filter>
 				            <isAllVersionsFilter>true</isAllVersionsFilter>
 				        </embedded>
+						<embedded>
+						 <groupId>com.adobe.aem.commons</groupId>
+						 <artifactId>assetshare.all</artifactId>
+						 <classifier>cloud</classifier> <!-- MUST ADD FOR AEM AS A CLOUD SERVICE  -->
+						 <type>zip</type>
+						 <target>/apps/adobeags2020program-packages/container/install</target>
+					 </embedded>
                     </embeddeds>
                 </configuration>
             </plugin>
@@ -208,6 +215,12 @@
 		     <classifier>cloud</classifier>
 		    <type>zip</type>
 		  </dependency>
+		  <dependency>
+         <groupId>com.adobe.aem.commons</groupId>
+         <artifactId>assetshare.all</artifactId>
+         <classifier>cloud</classifier> <!-- MUST ADD FOR AEM AS A CLOUD SERVICE  -->
+         <type>zip</type>
+     </dependency>
 
     </dependencies>
 </project>

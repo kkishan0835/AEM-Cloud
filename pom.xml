@@ -48,6 +48,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <aem.sdk.api>2025.7.21706.20250723T205632Z-250600</aem.sdk.api>
     <aemanalyser.version>1.6.6</aemanalyser.version>
+	<assetshare.commons.version>3.10.10</assetshare.commons.version>
 	<acs.commons.version>6.14.0</acs.commons.version>
     <componentGroupName>adobeags2020program</componentGroupName>
   </properties>
@@ -605,6 +606,25 @@ Bundle-DocURL:
         <version>1.0.1</version>
         <scope>test</scope>
       </dependency>
+	  <dependency>
+    <groupId>com.adobe.aem.commons</groupId>
+    <artifactId>assetshare.all</artifactId>
+    <version>3.10.10</version>
+    <classifier>cloud</classifier>
+    <type>zip</type>
+  </dependency>
+  <dependency>
+    <groupId>com.adobe.aem.commons</groupId>
+    <artifactId>assetshare.core</artifactId>
+    <version>3.10.10</version>
+    <type>jar</type>
+  </dependency>
+  <dependency>
+    <groupId>com.adobe.aem.commons</groupId>
+    <artifactId>assetshare.core.cloud</artifactId>    
+    <version>3.10.10</version>
+    <type>jar</type>
+  </dependency>
     </dependencies>
   </dependencyManagement>
 </project>
