@@ -4,3 +4,4 @@
     <filter root="/apps/adobeags2020program/components"/>
     <filter root="/apps/adobeags2020program/i18n"/>
 	<filter root="/apps/dam/gui"/>
+</workspaceFilter>
