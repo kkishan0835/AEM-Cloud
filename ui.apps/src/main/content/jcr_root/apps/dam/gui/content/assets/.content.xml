@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content jcr:primaryType="nt:unstructured">
+        <actions jcr:primaryType="nt:unstructured">
+            <selection jcr:primaryType="nt:unstructured">
+                <approve
+                    granite:id="approveCreate"
+                    granite:rel="lge-dam-asset-action-btn"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/anchorbutton"
+                    activeSelectionCount="multiple"
+                    icon="workflow"
+                    target=".cq-damadmin-admin-childpages"
+                    text="Approve"
+                    variant="actionBar"/>
+                <metadata
+                    granite:id="insertMetadata"
+                    granite:rel="lge-dam-asset-action-btn"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/anchorbutton"
+                    activeSelectionCount="multiple"
+                    icon="infoCircle"
+                    target=".cq-damadmin-admin-childpages"
+                    text="Metadata"
+                    variant="actionBar"/>
+                <assetmanagepublication
+                    granite:class="foundation-collection-action cq-damadmin-admin-managepublish cq-damadmin-admin-checkout-restricted"
+                    granite:rel="cq-siteadmin-admin-actions-publish-activator"
+                    jcr:primaryType="nt:unstructured"
+                    sling:hideResource="{Boolean}true"
+                    sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                    action="foundation.link"
+                    activeSelectionCount="multiple"
+                    icon="globeClock"
+                    text="Manage Publication1"
+                    variant="actionBar">
+                    <data
+                        jcr:primaryType="nt:unstructured"
+                        href.uritemplate="/mnt/override/libs/dam/gui/content/commons/assetmanagepublicationwizard.html{?item*}"/>
+                    <granite:rendercondition
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/renderconditions/and">
+                        <mainasset
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="dam/gui/coral/components/commons/renderconditions/mainasset"/>
+                        <granite:rendercondition
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/renderconditions/featuretoggle"
+                            toggleName="ft-sites-115"/>
+                        <renderassetmanagepublication
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="ui/model/rendercondition/managepublicationwizard-not-overlayed"/>
+                    </granite:rendercondition>
+                </assetmanagepublication>
+                <quickpublish
+                    granite:class="cq-damadmin-admin-checkout-restricted"
+                    granite:rel="cq-damadmin-admin-actions-publish-activator"
+                    jcr:primaryType="nt:unstructured"
+                    sling:hideResource="{Boolean}true"
+                    sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                    activeSelectionCount="multiple"
+                    icon="globe"
+                    target=".cq-damadmin-admin-childpages"
+                    text="Quick Publish"
+                    title="Quick Publish"
+                    trackingFeature="aem:assets:files:publish"
+                    variant="actionBar">
+                    <granite:rendercondition
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/renderconditions/and">
+                        <mainasset
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="dam/gui/coral/components/commons/renderconditions/mainasset"/>
+                        <not
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/renderconditions/not">
+                            <cloudpublish
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/renderconditions/or">
+                                <mppublish
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="dam/gui/coral/components/admin/renderconditions/sync-config"
+                                    type="mediaportal"/>
+                                <dmpublish
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="dam/gui/components/s7dam/dmrenderconditions/selectivepublish"
+                                    path="${ requestPathInfo.suffix }"/>
+                            </cloudpublish>
+                        </not>
+                    </granite:rendercondition>
+                    <data
+                        jcr:primaryType="nt:unstructured"
+                        referenceSrc.url="/libs/wcm/core/content/reference.json?_charset_=utf-8{&amp;path*}"
+                        src="/mnt/overlay/dam/gui/content/commons/publish.html"
+                        wizardSrc.uritemplate="/mnt/overlay/dam/gui/content/assets/publishassetwizard.html?_charset_=utf-8{&amp;item*}"/>
+                </quickpublish>
+            </selection>
+            <secondary jcr:primaryType="nt:unstructured">
+                <create jcr:primaryType="nt:unstructured">
+                    <items jcr:primaryType="nt:unstructured">
+                        <fileupload
+                            jcr:primaryType="nt:unstructured"
+                            sizeLimit="5368709120"/>
+                    </items>
+                </create>
+            </secondary>
+        </actions>
+        <head jcr:primaryType="nt:unstructured">
+            <clientlibs
+                jcr:primaryType="nt:unstructured"
+                categories="[dam.gui.admin.coral,dam.gui.actions.coral,unorm.coral,granite.shared,dam.gui.components.admin.adhocassetshare.coral,cq.common.wcm,dam.gui.view.insight,cq.gui.damadmin.lightbox.coral,cq.siteadmin.common,cq.gui.s7dam.admin.assetviewer,dam.gui.coral.fileupload,dam.gui.coral.backhref,cq.gui.coral.common.admin.timeline,dam.gui.admin.asset.uploadstatus,cq.gui.damadmin.references,dam.gui.admin.publishasset.coral,dam.gui.admin.unpublishasset.coral,dam.gui.coral.common.admin.timeline.events.workflow,dam.gui.coral.common.admin.timeline.events.version,dam.gui.admin.util.coral,dam.gui.coral.relateasset,dam.gui.admin.desktop.coral,dam.gui.coral.assetdetails.assetnavigator.layout,dam.gui.coral.stock.actions,dam.gui.s7dam.admin.dmpublish,dam.gui.admin.asset.uploadrestriction,lge.dam.asset.action]"/>
+        </head>
+        <views jcr:primaryType="nt:unstructured">
+            <list
+                jcr:primaryType="nt:unstructured"
+                sling:orderBefore="card"/>
+        </views>
+    </jcr:content>
+    <mylinkshares/>
+</jcr:root>
