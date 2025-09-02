@@ -12,10 +12,10 @@
 		let imsInstance = null;
 
         const imsProps = {
-    imsClientId: "aemcs-yeijisandbox-stage-assetselector",
+    imsClientId: "aemcs-kishkumar-sandbox",
     imsScope: "AdobeID,openid,additional_info.projectedProductContext,read_organizations",
     discoveryURL: "https://aem-discovery.adobe.io",
-    redirectUrl: https://author-p144106-e1487792.adobeaemcloud.com/,
+    redirectUrl: window.location.href,
     modalMode: true
 };
 
@@ -98,10 +98,10 @@
 
             /** @type {AssetSelectorProps} */
             const assetSelectorProps = {
-               imsOrg: "43041D80672487290A495EA5@AdobeOrg",
-				apiKey: "aemcs-yeijisandbox-stage-assetselector",
+               imsOrg: "9D2B274A641055650A495C10@AdobeOrg",
+				apiKey: "aemcs-kishkumar-sandbox",
                 discoveryURL: "https://aem-discovery.adobe.io",
-				repositoryId: "author-p144106-e1487792.adobeaemcloud.com", // remote author env
+				//repositoryId: "author-p144106-e1487792.adobeaemcloud.com", // remote author env
 				aemTierType: ["author"],
 				handleSelection: handleSelection,
 				onClose: onClose
