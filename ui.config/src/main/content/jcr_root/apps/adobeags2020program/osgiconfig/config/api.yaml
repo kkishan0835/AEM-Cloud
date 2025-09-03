@@ -1,0 +1,8 @@
+kind: "API"
+version: "1"
+metadata:
+envTypes: ["dev"]
+data:
+allowedClientIDs:
+author:
+- "aemcs-kishkumar-sandbox"
