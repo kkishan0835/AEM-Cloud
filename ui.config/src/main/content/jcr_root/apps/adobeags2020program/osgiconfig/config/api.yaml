@@ -1,8 +1,8 @@
 kind: "API"
 version: "1"
 metadata:
-envTypes: ["dev"]
+  envTypes: ["dev"]
 data:
-allowedClientIDs:
-author:
-- "aemcs-kishkumar-sandbox"
+  allowedClientIDs:
+    author:
+      - "aemcs-kishkumar-sandbox"
