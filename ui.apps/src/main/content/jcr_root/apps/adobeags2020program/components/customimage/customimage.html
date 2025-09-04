@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body class="asset-selectors">
+<h1> Custom Image Component </h1>
+    <sly data-sly-test="${properties.fileReference}">
+  <img src="${properties.fileReference @ context='uri'}"
+       alt="${properties.alt}"
+       style="max-width:400px; max-height:200px;" />
+</sly>
+</body>
+
+</html>
