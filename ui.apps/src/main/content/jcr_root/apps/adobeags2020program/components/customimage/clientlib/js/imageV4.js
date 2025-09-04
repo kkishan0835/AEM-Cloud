@@ -21,15 +21,40 @@
 
     // Always (re-)register the IMS service before opening the Asset Selector
     function ensureImsRegistered() {
-        // Clear existing registration if present (optional best practice!)
         if (window.PureJSSelectors && window.PureJSSelectors.clearAssetsSelectorsAuthService) {
             window.PureJSSelectors.clearAssetsSelectorsAuthService();
         }
         window.PureJSSelectors.registerAssetsSelectorsAuthService(imsProps);
     }
 
+    // Fetch the actual download URL from the selection (if present, async)
+    function fetchAssetDownloadUrl(selection, callback) {
+        const downloadApiUrl = selection[0]._links &&
+            selection[0]._links['http://ns.adobe.com/adobecloud/rel/download'] &&
+            selection[0]._links['http://ns.adobe.com/adobecloud/rel/download'].href;
+
+        if (!downloadApiUrl) {
+            // Fallback if no download API -- use path, repoPath, or url fields
+            const fallbackUrl = selection[0].path || selection[0].repoPath || selection[0].url;
+            callback && callback(fallbackUrl);
+            return;
+        }
+
+        // GET the download link from the API (returns JSON, must parse .href)
+        fetch(downloadApiUrl, { credentials: "include" })
+            .then(response => response.json())
+            .then(json => {
+                console.log("Asset API download JSON:", json);
+                callback && callback(json.href); // this is the real download (blob) URL
+            })
+            .catch(err => {
+                console.error("Failed to fetch asset download URL, falling back!", err);
+                const fallbackUrl = selection[0].path || selection[0].repoPath || selection[0].url;
+                callback && callback(fallbackUrl);
+            });
+    }
+
     function openAssetSelectorModal(handleSelectionCb) {
-        // Create a modal overlay div (not dialog) for react safety
         var modal = document.createElement("div");
         modal.style.position = "fixed";
         modal.style.top = 0;
@@ -70,26 +95,29 @@
             document.body.removeChild(modal);
         }
 
-        // Asset Selector props (REQUIRED)
         const assetSelectorProps = {
             imsOrg: "9D2B274A641055650A495C10@AdobeOrg",
             apiKey: "aemcs-kishkumar-sandbox",
             discoveryURL: "https://aem-discovery.adobe.io",
-           // repositoryId: "author-p144106-e1487792.adobeaemcloud.com",
+            // repositoryId: "author-p144106-e1487792.adobeaemcloud.com",
             aemTierType: ["author"],
             handleSelection: function(selection) {
-                if (typeof handleSelectionCb === "function") {
-                    handleSelectionCb(selection);
-                }
+                // Use the download API if present, otherwise path/repoPath/url
+                fetchAssetDownloadUrl(selection, function(downloadUrl) {
+                    // Example: update fileReference field, trigger preview, or log
+                    $("[name='./fileReference']")
+                        .val(downloadUrl)
+                        .trigger("change");
+                    // Optionally, show the image preview
+                    // $("#asset-preview").html(`<img src="${downloadUrl}" alt="Preview" style="max-width:400px;max-height:140px;" />`);
+                });
                 closeModal();
             },
             onClose: closeModal
         };
 
-        // The critical step: (re-)register IMS before launching the selector!
         ensureImsRegistered();
 
-        // Display the asset selector
         PureJSSelectors.renderAssetSelectorWithAuthFlow(container, assetSelectorProps, function(){});
     }
 
@@ -102,11 +130,8 @@
                 e.preventDefault();
                 loadAssetSelectorScript(function() {
                     openAssetSelectorModal(function(selection) {
-                        if (selection && selection.length) {
-                            $("[name='./fileReference']")
-                                .val(selection[0].path || selection[0].repoPath || selection[0].url)
-                                .trigger("change");
-                        }
+                        // This moves to fetchAssetDownloadUrl inside handleSelection now.
+                        // (see above)
                     });
                 });
             });
