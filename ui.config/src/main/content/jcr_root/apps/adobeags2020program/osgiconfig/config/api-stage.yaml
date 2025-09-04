@@ -1,8 +1,0 @@
-kind: "API"
-version: "1"
-metadata:
-  envTypes: ["stage", "prod"]
-data:
-  allowedClientIDs:
-    author:
-      - "aemcs-kishkumar-sandbox"
