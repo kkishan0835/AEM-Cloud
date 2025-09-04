@@ -75,7 +75,7 @@
             imsOrg: "43041D80672487290A495EA5@AdobeOrg",
             apiKey: "aemcs-kishkumar-sandbox",
             discoveryURL: "https://aem-discovery.adobe.io",
-            repositoryId: "author-p144106-e1487792.adobeaemcloud.com",
+           // repositoryId: "author-p144106-e1487792.adobeaemcloud.com",
             aemTierType: ["author"],
             handleSelection: function(selection) {
                 if (typeof handleSelectionCb === "function") {
