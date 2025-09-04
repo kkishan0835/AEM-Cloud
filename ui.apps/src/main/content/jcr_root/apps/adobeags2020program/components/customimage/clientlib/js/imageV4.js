@@ -72,7 +72,7 @@
 
         // Asset Selector props (REQUIRED)
         const assetSelectorProps = {
-            imsOrg: "43041D80672487290A495EA5@AdobeOrg",
+            imsOrg: "9D2B274A641055650A495C10@AdobeOrg",
             apiKey: "aemcs-kishkumar-sandbox",
             discoveryURL: "https://aem-discovery.adobe.io",
            // repositoryId: "author-p144106-e1487792.adobeaemcloud.com",
