@@ -27,26 +27,21 @@
     }
 
     // --- doFetch: smartly gets an IMS Bearer token if not provided ---
-    const doFetch = (url, token = null, method = 'GET') => {
-        const header = new Headers();
-        // Prefer passed token, else get from Asset Selector AuthService
-        const bearerToken =
-            token ||
-            (window.assetsSelectorsAuthService && window.assetsSelectorsAuthService.imsToken) ||
-            (window.PureJSSelectors
-                && typeof window.PureJSSelectors.getAssetsSelectorsAuthService === "function"
-                && window.PureJSSelectors.getAssetsSelectorsAuthService().imsToken) ||
-            null;
-        if (bearerToken) {
-            header.append('Authorization', `Bearer ${bearerToken}`);
-        }
-        const requestOptions = {
-            method: method,
-            headers: header,
-            credentials: "include"
-        };
-        return fetch(url, requestOptions);
-    };
+		const doFetch = (url, token = null, method = 'GET') => {
+		const header = new Headers();
+		if (!token) {
+		  // get the bearer token either from window/wherever you are storing it from registerAssetsSelectorsAuthService
+		  header.append(
+			'Authorization',
+			`Bearer ${window['assetsSelectorsAuthService'].imsToken}`
+		  );
+		}
+		const requestOptions = {
+		  method: method,
+		  headers: header,
+		};
+		return fetch(url, requestOptions);
+	  };
 
     // Preview optimal rendition of the asset (cross-env) as Blob
     async function fetchAndPreviewAsset(selection, fileReferenceCallback) {
@@ -77,8 +72,8 @@
         if (assetUrl && assetUrl.startsWith("http")) {
             try {
                 const response = await doFetch(assetUrl);
-                if (!response.ok) throw new Error("Failed to fetch asset/rendition");
-                const blobUrl = URL.createObjectURL(await response.blob());
+				const buffer = await response.arrayBuffer();
+                const blobUrl = URL.createObjectURL(new Blob([new Uint8Array(buffer)]));
                 let $preview = $("#asset-preview");
                 if (!$preview.length) {
                     $preview = $("<div id='asset-preview'></div>").insertAfter("[name='./fileReference']").css("margin-top", "10px");
