@@ -1,5 +1,5 @@
 (function($, document) {
-    // Dynamically load Asset Selector MFE JS if not already loaded
+    // Load Asset Selector MFE JS if not already loaded
     function loadAssetSelectorScript(callback) {
         if (window.PureJSSelectors) {
             callback();
@@ -19,7 +19,6 @@
         modalMode: true
     };
 
-    // Always (re-)register the IMS service before opening the Asset Selector
     function ensureImsRegistered() {
         if (window.PureJSSelectors && window.PureJSSelectors.clearAssetsSelectorsAuthService) {
             window.PureJSSelectors.clearAssetsSelectorsAuthService();
@@ -27,34 +26,62 @@
         window.PureJSSelectors.registerAssetsSelectorsAuthService(imsProps);
     }
 
-    // Fetch the actual download URL from the selection (if present, async)
-    function fetchAssetDownloadUrl(selection, callback) {
-        const downloadApiUrl = selection[0]._links &&
-            selection[0]._links['http://ns.adobe.com/adobecloud/rel/download'] &&
-            selection[0]._links['http://ns.adobe.com/adobecloud/rel/download'].href;
-
-        if (!downloadApiUrl) {
-            // Fallback if no download API -- use path, repoPath, or url fields
-            const fallbackUrl = selection[0].path || selection[0].repoPath || selection[0].url;
-            callback && callback(fallbackUrl);
-            return;
+    // Fetch rendition or asset download, convert to Blob URL for preview
+    function fetchAndPreviewAsset(selection, fileReferenceCallback) {
+        // 1. Try to get the optimal rendition URL if present
+        let renditionLinks = selection[0]._links && selection[0]._links['http://ns.adobe.com/adobecloud/rel/rendition'];
+        let optimalRenditionLink;
+        if (renditionLinks && renditionLinks.length) {
+            optimalRenditionLink = renditionLinks.reduce((best, curr) => {
+                const bestRes = (best.width || 0) * (best.height || 0);
+                const currRes = (curr.width || 0) * (curr.height || 0);
+                return currRes > bestRes ? curr : best;
+            });
         }
 
-        // GET the download link from the API (returns JSON, must parse .href)
-        fetch(downloadApiUrl, { credentials: "include" })
-            .then(response => response.json())
-            .then(json => {
-                console.log("Asset API download JSON:", json);
-                callback && callback(json.href); // this is the real download (blob) URL
-            })
-            .catch(err => {
-                console.error("Failed to fetch asset download URL, falling back!", err);
-                const fallbackUrl = selection[0].path || selection[0].repoPath || selection[0].url;
-                callback && callback(fallbackUrl);
+        // 2. If an optimal rendition is found, fetch and preview, otherwise fallback to normal download
+        let assetUrlToFetch =
+            (optimalRenditionLink && optimalRenditionLink.href) ||
+            (selection[0]._links &&
+                selection[0]._links['http://ns.adobe.com/adobecloud/rel/download'] &&
+                selection[0]._links['http://ns.adobe.com/adobecloud/rel/download'].href) ||
+            selection[0].url ||
+            selection[0].repoPath ||
+            selection[0].path;
+
+        // Populate fileReference with path/url (for persistence)
+        if (fileReferenceCallback) {
+            fileReferenceCallback(assetUrlToFetch);
+        }
+
+        // If the URL is from author DAM, fetch and create a blob preview
+        if (assetUrlToFetch && assetUrlToFetch.startsWith("http")) {
+            // Use bearer token if needed for protected assets
+            const imsToken = (window.assetsSelectorsAuthService && window.assetsSelectorsAuthService.imsToken)
+                || (window.PureJSSelectors?.getAssetsSelectorsAuthService?.()?.imsToken)
+                || null;
+
+            fetch(assetUrlToFetch, {
+                headers: imsToken ? { Authorization: `Bearer ${imsToken}` } : undefined,
+                credentials: "include"
+            }).then(response => {
+                if (!response.ok) throw new Error("Failed to fetch asset/rendition");
+                return response.blob();
+            }).then(blob => {
+                const blobUrl = URL.createObjectURL(blob);
+                // Add preview image in dialog, e.g. in div#asset-preview (create if missing)
+                let $preview = $("#asset-preview");
+                if (!$preview.length) {
+                    $preview = $("<div id='asset-preview'></div>").insertAfter("[name='./fileReference']").css("margin-top", "10px");
+                }
+                $preview.html(`<img src="${blobUrl}" alt="preview" style="max-width:400px;max-height:120px;">`);
+            }).catch(e => {
+                console.warn("Asset preview failed", e);
             });
+        }
     }
 
-    function openAssetSelectorModal(handleSelectionCb) {
+    function openAssetSelectorModal() {
         var modal = document.createElement("div");
         modal.style.position = "fixed";
         modal.style.top = 0;
@@ -99,17 +126,13 @@
             imsOrg: "9D2B274A641055650A495C10@AdobeOrg",
             apiKey: "aemcs-kishkumar-sandbox",
             discoveryURL: "https://aem-discovery.adobe.io",
-            // repositoryId: "author-p144106-e1487792.adobeaemcloud.com",
             aemTierType: ["author"],
             handleSelection: function(selection) {
-                // Use the download API if present, otherwise path/repoPath/url
-                fetchAssetDownloadUrl(selection, function(downloadUrl) {
-                    // Example: update fileReference field, trigger preview, or log
+                // Persist value to dialog and show a preview
+                fetchAndPreviewAsset(selection, function(urlOrPath) {
                     $("[name='./fileReference']")
-                        .val(downloadUrl)
+                        .val(urlOrPath)
                         .trigger("change");
-                    // Optionally, show the image preview
-                    // $("#asset-preview").html(`<img src="${downloadUrl}" alt="Preview" style="max-width:400px;max-height:140px;" />`);
                 });
                 closeModal();
             },
@@ -117,7 +140,6 @@
         };
 
         ensureImsRegistered();
-
         PureJSSelectors.renderAssetSelectorWithAuthFlow(container, assetSelectorProps, function(){});
     }
 
@@ -129,10 +151,7 @@
             $btn.on("click", function(e) {
                 e.preventDefault();
                 loadAssetSelectorScript(function() {
-                    openAssetSelectorModal(function(selection) {
-                        // This moves to fetchAssetDownloadUrl inside handleSelection now.
-                        // (see above)
-                    });
+                    openAssetSelectorModal();
                 });
             });
         }
