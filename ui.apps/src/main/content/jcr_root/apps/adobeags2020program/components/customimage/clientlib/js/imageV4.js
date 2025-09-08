@@ -26,58 +26,72 @@
         window.PureJSSelectors.registerAssetsSelectorsAuthService(imsProps);
     }
 
-    // Fetch rendition or asset download, convert to Blob URL for preview
-    function fetchAndPreviewAsset(selection, fileReferenceCallback) {
-        // 1. Try to get the optimal rendition URL if present
-        let renditionLinks = selection[0]._links && selection[0]._links['http://ns.adobe.com/adobecloud/rel/rendition'];
-        let optimalRenditionLink;
-        if (renditionLinks && renditionLinks.length) {
-            optimalRenditionLink = renditionLinks.reduce((best, curr) => {
+    // --- doFetch: smartly gets an IMS Bearer token if not provided ---
+    const doFetch = (url, token = null, method = 'GET') => {
+        const header = new Headers();
+        // Prefer passed token, else get from Asset Selector AuthService
+        const bearerToken =
+            token ||
+            (window.assetsSelectorsAuthService && window.assetsSelectorsAuthService.imsToken) ||
+            (window.PureJSSelectors
+                && typeof window.PureJSSelectors.getAssetsSelectorsAuthService === "function"
+                && window.PureJSSelectors.getAssetsSelectorsAuthService().imsToken) ||
+            null;
+        if (bearerToken) {
+            header.append('Authorization', `Bearer ${bearerToken}`);
+        }
+        const requestOptions = {
+            method: method,
+            headers: header,
+            credentials: "include"
+        };
+        return fetch(url, requestOptions);
+    };
+
+    // Preview optimal rendition of the asset (cross-env) as Blob
+    async function fetchAndPreviewAsset(selection, fileReferenceCallback) {
+        let assetUrl = null;
+        // 1. Try optimal rendition for preview
+        const renditions = selection[0]?._links?.['http://ns.adobe.com/adobecloud/rel/rendition'];
+        let optimal = null;
+        if (renditions && renditions.length) {
+            optimal = renditions.reduce((best, curr) => {
                 const bestRes = (best.width || 0) * (best.height || 0);
                 const currRes = (curr.width || 0) * (curr.height || 0);
                 return currRes > bestRes ? curr : best;
             });
         }
-
-        // 2. If an optimal rendition is found, fetch and preview, otherwise fallback to normal download
-        let assetUrlToFetch =
-            (optimalRenditionLink && optimalRenditionLink.href) ||
-            (selection[0]._links &&
-                selection[0]._links['http://ns.adobe.com/adobecloud/rel/download'] &&
-                selection[0]._links['http://ns.adobe.com/adobecloud/rel/download'].href) ||
+        assetUrl =
+            (optimal && optimal.href) ||
+            (selection[0]._links && selection[0]._links['http://ns.adobe.com/adobecloud/rel/download'] && selection[0]._links['http://ns.adobe.com/adobecloud/rel/download'].href) ||
             selection[0].url ||
             selection[0].repoPath ||
             selection[0].path;
 
-        // Populate fileReference with path/url (for persistence)
+        // Persist fileReference in dialog
         if (fileReferenceCallback) {
-            fileReferenceCallback(assetUrlToFetch);
+            fileReferenceCallback(assetUrl);
         }
 
-        // If the URL is from author DAM, fetch and create a blob preview
-        if (assetUrlToFetch && assetUrlToFetch.startsWith("http")) {
-            // Use bearer token if needed for protected assets
-            const imsToken = (window.assetsSelectorsAuthService && window.assetsSelectorsAuthService.imsToken)
-                || (window.PureJSSelectors?.getAssetsSelectorsAuthService?.()?.imsToken)
-                || null;
-
-            fetch(assetUrlToFetch, {
-                headers: imsToken ? { Authorization: `Bearer ${imsToken}` } : undefined,
-                credentials: "include"
-            }).then(response => {
+        // If assetUrl is HTTP(S), try to fetch and preview as blob
+        if (assetUrl && assetUrl.startsWith("http")) {
+            try {
+                const response = await doFetch(assetUrl);
                 if (!response.ok) throw new Error("Failed to fetch asset/rendition");
-                return response.blob();
-            }).then(blob => {
-                const blobUrl = URL.createObjectURL(blob);
-                // Add preview image in dialog, e.g. in div#asset-preview (create if missing)
+                const blobUrl = URL.createObjectURL(await response.blob());
                 let $preview = $("#asset-preview");
                 if (!$preview.length) {
                     $preview = $("<div id='asset-preview'></div>").insertAfter("[name='./fileReference']").css("margin-top", "10px");
                 }
                 $preview.html(`<img src="${blobUrl}" alt="preview" style="max-width:400px;max-height:120px;">`);
-            }).catch(e => {
+            } catch (e) {
+                let $preview = $("#asset-preview");
+                if (!$preview.length) {
+                    $preview = $("<div id='asset-preview'></div>").insertAfter("[name='./fileReference']").css("margin-top", "10px");
+                }
+                $preview.html('<span style="color:#e53935;">Preview not available (CORS/Auth error)</span>');
                 console.warn("Asset preview failed", e);
-            });
+            }
         }
     }
 
@@ -128,11 +142,10 @@
             discoveryURL: "https://aem-discovery.adobe.io",
             aemTierType: ["author"],
             handleSelection: function(selection) {
-                // Persist value to dialog and show a preview
                 fetchAndPreviewAsset(selection, function(urlOrPath) {
                     $("[name='./fileReference']")
-                        .val(urlOrPath)
-                        .trigger("change");
+                      .val(urlOrPath)
+                      .trigger("change");
                 });
                 closeModal();
             },
@@ -147,7 +160,6 @@
         var $btn = $("button:has(coral-button-label:contains('Pick from Remote Asset Selector'))");
         if ($btn.length && !$btn.data("assetSelectorBound")) {
             $btn.data("assetSelectorBound", true);
-
             $btn.on("click", function(e) {
                 e.preventDefault();
                 loadAssetSelectorScript(function() {
